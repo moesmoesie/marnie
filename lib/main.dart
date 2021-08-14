@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marnie/pages/home_page.dart';
+import 'package:marnie/pages/home/home_page.dart';
 
 void main() {
   runApp(MyApp());
