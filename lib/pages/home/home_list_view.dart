@@ -12,7 +12,7 @@ class HomeListView extends StatelessWidget {
       MaterialPageRoute(
         builder: (oldContext) => ChangeNotifierProvider.value(
           value: Provider.of<DreamModel>(context),
-          child: DreamPage(dream),
+          child: DreamPage(dream: dream),
         ),
       ),
     );

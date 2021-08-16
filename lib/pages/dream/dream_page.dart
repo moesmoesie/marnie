@@ -6,13 +6,14 @@ import 'dream_app_bar.dart';
 import 'dream_body.dart';
 
 class DreamPage extends StatelessWidget {
-  const DreamPage(this.dream, {Key? key}) : super(key: key);
-  final Dream dream;
+  const DreamPage({this.dream, Key? key}) : super(key: key);
+  final Dream? dream;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => EditableDream.fromDream(dream),
+      create: (_) =>
+          dream != null ? EditableDream.fromDream(dream!) : EditableDream(),
       child: Scaffold(
         appBar: DreamAppBar(),
         body: DreamBody(),
