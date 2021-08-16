@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marnie/models/dream_model.dart';
+import 'package:marnie/models/dream.dart';
+import 'package:marnie/stores/dream_store.dart';
 import 'package:provider/provider.dart';
 
 class DreamAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -33,11 +34,12 @@ class _DeleteButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void deleteDream(BuildContext context) {
+  Future<void> deleteDream(BuildContext context) async {
     final dream = Provider.of<EditableDream>(context, listen: false);
-    final dreamModel = Provider.of<DreamModel>(context, listen: false);
+    final dreamModel = Provider.of<DreamStore>(context, listen: false);
     if (!dream.isNewDream) {
-      dreamModel.remove(dream.originialDream!);
+      print("hello");
+      await dreamModel.remove(dream.originialDream!);
     }
     Navigator.pop(context);
   }
@@ -45,7 +47,7 @@ class _DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => deleteDream(context),
+      onPressed: () async => await deleteDream(context),
       icon: Icon(Icons.delete),
     );
   }
@@ -58,7 +60,7 @@ class _SaveButton extends StatelessWidget {
 
   void addDream(BuildContext context) {
     final dream = Provider.of<EditableDream>(context, listen: false);
-    final dreamModel = Provider.of<DreamModel>(context, listen: false);
+    final dreamModel = Provider.of<DreamStore>(context, listen: false);
     dreamModel.add(dream.generateDream());
     Navigator.pop(context);
   }
@@ -77,17 +79,17 @@ class _UpdateButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void updateDream(BuildContext context) {
+  Future<void> updateDream(BuildContext context) async {
     final dream = Provider.of<EditableDream>(context, listen: false);
-    final dreamModel = Provider.of<DreamModel>(context, listen: false);
-    dreamModel.update(dream.generateDream());
+    final dreamModel = Provider.of<DreamStore>(context, listen: false);
+    await dreamModel.update(dream.generateDream());
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => updateDream(context),
+      onPressed: () async => await updateDream(context),
       icon: Icon(Icons.save),
     );
   }

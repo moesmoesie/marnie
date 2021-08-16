@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marnie/models/dream_model.dart';
+import 'package:marnie/models/dream.dart';
 import 'package:provider/provider.dart';
 
 import 'dream_app_bar.dart';

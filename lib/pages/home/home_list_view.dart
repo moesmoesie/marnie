@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marnie/models/dream_model.dart';
+import 'package:marnie/models/dream.dart';
+import 'package:marnie/stores/dream_store.dart';
 import 'package:marnie/pages/dream/dream_page.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class HomeListView extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (oldContext) => ChangeNotifierProvider.value(
-          value: Provider.of<DreamModel>(context),
+          value: Provider.of<DreamStore>(context),
           child: DreamPage(dream: dream),
         ),
       ),
@@ -20,16 +21,27 @@ class HomeListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dreamModel = Provider.of<DreamModel>(context);
-    return ListView.builder(
-      itemCount: dreamModel.dreamCount,
-      itemBuilder: (context, index) {
-        final dream = dreamModel.dreams[index];
-        return ListTile(
-          title: Text(dream.title),
-          onTap: () => navigateToDreamPage(context, dream),
-        );
-      },
-    );
+    final dreamModel = Provider.of<DreamStore>(context);
+    return FutureBuilder<List<Dream>>(
+        future: dreamModel.dreams,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            final dreams = snapshot.data!;
+            return ListView.builder(
+              itemCount: dreams.length,
+              itemBuilder: (context, index) {
+                final dream = dreams[index];
+                return ListTile(
+                  title: Text(dream.title),
+                  onTap: () => navigateToDreamPage(context, dream),
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: Text("Loading..."),
+            );
+          }
+        });
   }
 }

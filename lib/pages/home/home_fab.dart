@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marnie/models/dream_model.dart';
+import 'package:marnie/stores/dream_store.dart';
 import 'package:marnie/pages/dream/dream_page.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +11,7 @@ class HomeFloatingActionButton extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (oldContext) => ChangeNotifierProvider.value(
-          value: Provider.of<DreamModel>(context),
+          value: Provider.of<DreamStore>(context),
           child: DreamPage(),
         ),
       ),
