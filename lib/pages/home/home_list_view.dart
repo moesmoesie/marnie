@@ -34,7 +34,10 @@ class HomeListView extends StatelessWidget {
                 final dream = dreams[index];
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-                  child: HomeListItem(dream: dream),
+                  child: GestureDetector(
+                    onTap: () => navigateToDreamPage(context, dream),
+                    child: HomeListItem(dream: dream),
+                    ),
                 );
               },
             );

@@ -15,8 +15,9 @@ class _DreamBodyState extends State<DreamBody> {
   @override
   Widget build(BuildContext context) {
     final EditableDream dream = Provider.of<EditableDream>(context);
-    return Center(
-      child: DreamTextEditor(dream.title),
+    return Container(
+      padding: EdgeInsets.all(0),
+      child: DreamTextEditor([dream.title,dream.text].join("\n"),),
     );
   }
 }

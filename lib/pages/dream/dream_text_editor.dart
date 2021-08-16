@@ -18,7 +18,15 @@ class _DreamTextEditorState extends State<DreamTextEditor> {
     this._controller = TextEditingController(text: widget.initialText);
     this._controller.addListener(() {
       final dream = Provider.of<EditableDream>(context, listen: false);
-      dream.setTitle(_controller.text);
+      String text = _controller.text;
+      List<String> splitText = text.split("\n");
+
+      String title = splitText[0];
+      splitText.removeAt(0);
+      String dreamText = splitText.join("\n");
+
+      dream.setTitle(title);
+      dream.setText(dreamText);
     });
     super.initState();
   }
@@ -33,6 +41,11 @@ class _DreamTextEditorState extends State<DreamTextEditor> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
+      maxLines: null,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.symmetric(horizontal: 12,vertical: 0)
+      ),
     );
   }
 }

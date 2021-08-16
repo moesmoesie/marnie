@@ -48,13 +48,18 @@ class EditableDream with ChangeNotifier {
   }
 
   void setText(String text) {
-    this.text = text;
-    notifyListeners();
+    if(this.text != text){
+      this.text = text;
+      notifyListeners();
+    }
   }
 
   void setTitle(String title) {
-    this.title = title;
-    notifyListeners();
+    if(title != this.title){
+      this.title = title;
+      notifyListeners();
+    }
+
   }
 
   Dream generateDream() {
