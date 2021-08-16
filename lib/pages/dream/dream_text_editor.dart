@@ -15,7 +15,8 @@ class _DreamTextEditorState extends State<DreamTextEditor> {
 
   @override
   void initState() {
-    this._controller = TextEditingController(text: widget.initialText);
+    this._controller = CustomTextEditingController();
+    this._controller.text = widget.initialText;
     this._controller.addListener(() {
       final dream = Provider.of<EditableDream>(context, listen: false);
       String text = _controller.text;
@@ -47,5 +48,42 @@ class _DreamTextEditorState extends State<DreamTextEditor> {
         contentPadding: EdgeInsets.symmetric(horizontal: 12,vertical: 0)
       ),
     );
+  }
+}
+
+
+class CustomTextEditingController extends TextEditingController {
+
+  @override
+  set text(String newText) {
+    value = value.copyWith(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+      composing: TextRange.empty,
+    );
+  }
+
+  @override
+  TextSpan buildTextSpan({required BuildContext context, TextStyle? style , required bool withComposing}) {
+    assert(!value.composing.isValid || !withComposing || value.isComposingRangeValid);
+
+    List<String> splitText = value.text.split("\n");
+    String title = splitText[0];
+    final titleTextSpan = TextSpan(
+      text: title,
+      style: Theme.of(context).textTheme.headline6
+    );
+
+    splitText.removeAt(0);
+    String body = splitText.join("\n");
+    body = "\n" + body;
+    final bodyTextSpan = TextSpan(
+      text: body,
+      style: Theme.of(context).textTheme.bodyText1
+    );
+
+    return TextSpan(children: [
+      titleTextSpan,bodyTextSpan,
+    ]);
   }
 }
