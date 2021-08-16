@@ -43,7 +43,6 @@ class LocalDatabase {
 
   Future<List<Dream>> loadDreams() async {
     final List<Map<String, dynamic>> maps = await _database.query('dreams');
-    print(maps);
     return List.generate(maps.length, (i) {
       return Dream.fromMap(maps[i]);
     });
