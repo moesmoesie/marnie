@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marnie/models/dream.dart';
+import 'package:marnie/pages/home/home_list_item.dart';
 import 'package:marnie/stores/dream_store.dart';
 import 'package:marnie/pages/dream/dream_page.dart';
 import 'package:provider/provider.dart';
@@ -31,9 +32,9 @@ class HomeListView extends StatelessWidget {
               itemCount: dreams.length,
               itemBuilder: (context, index) {
                 final dream = dreams[index];
-                return ListTile(
-                  title: Text(dream.title),
-                  onTap: () => navigateToDreamPage(context, dream),
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                  child: HomeListItem(dream: dream),
                 );
               },
             );
