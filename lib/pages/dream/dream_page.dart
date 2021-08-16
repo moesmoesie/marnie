@@ -62,7 +62,7 @@ class _DreamAppBarState extends State<DreamAppBar> {
     final dream = Provider.of<EditableDream>(context, listen: false);
     final dreamModel = Provider.of<DreamModel>(context, listen: false);
     if (dream.id != null) {
-      dreamModel.remove(dream.dream!);
+      dreamModel.remove(dream.originialDream!);
     }
     Navigator.pop(context);
   }

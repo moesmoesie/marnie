@@ -1,22 +1,22 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class DreamModel extends ChangeNotifier {
-  /// Internal, private state of the cart.
   List<Dream> _dreams = [
-    Dream(0, "title0"),
-    Dream(1, "title1"),
-    Dream(2, "title2"),
-    Dream(3, "title3"),
-    Dream(4, "title4"),
-    Dream(5, "title5"),
+    Dream(Uuid(), "title0"),
+    Dream(Uuid(), "title1"),
+    Dream(Uuid(), "title2"),
+    Dream(Uuid(), "title3"),
+    Dream(Uuid(), "title4"),
+    Dream(Uuid(), "title5"),
   ];
 
   UnmodifiableListView<Dream> get dreams => UnmodifiableListView(_dreams);
   int get dreamCount => _dreams.length;
 
-  void add(Dream item) {
-    _dreams.add(item);
+  void add(Dream dream) {
+    _dreams.add(dream);
     notifyListeners();
   }
 
@@ -26,7 +26,6 @@ class DreamModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Removes all items from the cart.
   void remove(Dream dream) {
     _dreams.remove(dream);
     notifyListeners();
@@ -35,22 +34,22 @@ class DreamModel extends ChangeNotifier {
 
 @immutable
 class Dream {
-  final int id;
+  final Uuid id;
   final String title;
   final String text;
 
   Dream(this.id, this.title, {this.text = "text"});
 
   @override
-  int get hashCode => id;
+  int get hashCode => id.hashCode;
 
   @override
   bool operator ==(Object other) => other is Dream && other.id == id;
 }
 
 class EditableDream with ChangeNotifier {
-  int? id;
-  Dream? dream;
+  Uuid? id;
+  Dream? originialDream;
   String title = "";
   String text = "";
 
@@ -60,7 +59,7 @@ class EditableDream with ChangeNotifier {
     this.title = dream.title;
     this.text = dream.text;
     this.id = dream.id;
-    this.dream = dream;
+    this.originialDream = dream;
   }
 
   void setText(String text) {
