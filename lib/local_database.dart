@@ -10,7 +10,7 @@ class LocalDatabase {
   static Future<LocalDatabase> loadDatabase() async {
     WidgetsFlutterBinding.ensureInitialized();
     String sql =
-        "CREATE TABLE dreams(id TEXT PRIMARY KEY, title TEXT, text INTEGER)";
+        "CREATE TABLE dreams(id TEXT PRIMARY KEY, title TEXT, text INTEGER, tags BLOB)";
 
     final database = await openDatabase(
       join(await getDatabasesPath(), 'dreams_database.db'),
@@ -20,7 +20,9 @@ class LocalDatabase {
       version: 1,
     );
 
-    return LocalDatabase(database);
+    final localDatabase = LocalDatabase(database);
+    // localDatabase.insertDream(Dream(Uuid().v1(), tags: ["hello world"],),);
+    return localDatabase;
   }
 
   Future<void> insertDream(Dream dream) async {

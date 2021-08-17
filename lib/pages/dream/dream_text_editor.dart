@@ -11,7 +11,7 @@ class DreamTextEditor extends StatefulWidget {
 }
 
 class _DreamTextEditorState extends State<DreamTextEditor> {
-  late TextEditingController _controller;
+  late CustomTextEditingController _controller;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _DreamTextEditorState extends State<DreamTextEditor> {
       String title = splitText[0];
       splitText.removeAt(0);
       String dreamText = splitText.join("\n");
-
+      dream.setTags(_controller.tags);
       dream.setTitle(title);
       dream.setText(dreamText);
     });
@@ -53,6 +53,7 @@ class _DreamTextEditorState extends State<DreamTextEditor> {
 
 
 class CustomTextEditingController extends TextEditingController {
+  List<String> tags = [];
 
   @override
   set text(String newText) {
@@ -75,15 +76,27 @@ class CustomTextEditingController extends TextEditingController {
     );
 
     splitText.removeAt(0);
+    final List<InlineSpan> childeren = [titleTextSpan];
+    final List<String> tags = [];
+
     String body = splitText.join("\n");
     body = "\n" + body;
-    final bodyTextSpan = TextSpan(
-      text: body,
-      style: Theme.of(context).textTheme.bodyText1
+    body.splitMapJoin(
+      RegExp(r"\_(.*?)\_"),
+      onMatch: (Match match) {
+        final formatText = match[0]!.replaceAll("_", "");
+        tags.add(formatText.trim());
+        final ts = TextSpan(text: formatText, style: Theme.of(context).textTheme.overline);
+        childeren.add(ts);
+        return "";
+      },
+      onNonMatch: (String match){
+        childeren.add(TextSpan(text: match, style: Theme.of(context).textTheme.bodyText1));
+        return "";
+      }
     );
+    this.tags = tags;
 
-    return TextSpan(children: [
-      titleTextSpan,bodyTextSpan,
-    ]);
+    return TextSpan(children: childeren);
   }
 }
