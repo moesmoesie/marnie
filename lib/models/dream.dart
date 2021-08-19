@@ -17,7 +17,7 @@ class Dream {
       'id': this.id,
       'title': this.title,
       'text': this.text,
-      'tags' : json.encode(this.tags)
+      'tags': json.encode(this.tags)
     };
   }
 
@@ -55,21 +55,21 @@ class EditableDream with ChangeNotifier {
   }
 
   void setText(String text) {
-    if(this.text != text){
+    if (this.text != text) {
       this.text = text;
       notifyListeners();
     }
   }
 
   void setTags(List<String> tags) {
-    if(this.tags != tags){
+    if (this.tags != tags) {
       this.tags = tags;
       notifyListeners();
     }
   }
 
   void setTitle(String title) {
-    if(title != this.title){
+    if (title != this.title) {
       this.title = title;
       notifyListeners();
     }
@@ -77,6 +77,6 @@ class EditableDream with ChangeNotifier {
 
   Dream generateDream() {
     String id = this.isNewDream ? Uuid().v1() : this.originialDream!._id!;
-    return Dream(id, title: this.title, text: this.text);
+    return Dream(id, title: this.title, text: this.text, tags: this.tags);
   }
 }

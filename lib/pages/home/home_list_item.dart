@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marnie/models/dream.dart';
 
 class HomeListItem extends StatelessWidget {
-  const HomeListItem({required this.dream, Key? key }) : super(key: key);
+  const HomeListItem({required this.dream, Key? key}) : super(key: key);
   final Dream dream;
 
   @override
@@ -14,7 +14,8 @@ class HomeListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(dream.title),
-            Text(dream.text)
+            Text(dream.text),
+            Text("${dream.tags.length}"),
           ],
         ),
       ),
